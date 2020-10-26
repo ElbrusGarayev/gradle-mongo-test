@@ -4,9 +4,7 @@ package com.example.gradlemongotest.controller;
 import com.example.gradlemongotest.entity.User;
 import com.example.gradlemongotest.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,8 +23,14 @@ public class UserController {
     }
 
     @PostMapping("/insert")
-    public void insert(String name,String salary){
-        User user = new User(name, salary);
+    public void insert(User user){
+        userRepository.save(user);
+    }
+
+    @PostMapping("/update")
+    public void insert(String oldName, String newName){
+        User user = userRepository.findByName(oldName).get();
+        user.setName(newName);
         userRepository.save(user);
     }
 }
